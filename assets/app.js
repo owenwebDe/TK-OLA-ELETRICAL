@@ -60,10 +60,6 @@
   if (reduce || !hasGSAP) {
     body.classList.remove('is-loading');
     $$('[data-count]').forEach(function (el) { el.textContent = '100'; });
-    $$('[data-num]').forEach(function (el) {
-      var n = el.getAttribute('data-num');
-      el.textContent = el.hasAttribute('data-pad') && n.length < 2 ? '0' + n : n;
-    });
     $$('[data-step]').forEach(function (s) { s.classList.add('is-active'); });
     // anchor links still need to work
     return;
@@ -128,34 +124,9 @@
       .to(loader, { yPercent: -100, duration: .85, ease: 'expo.inOut' }, 1.35);
   }
 
-  /* ---------------- custom cursor + magnetic buttons ---------------- */
+  /* ---------------- magnetic buttons ---------------- */
 
   if (!coarse) {
-    var dot = $('.cursor');
-    var ring = $('.cursor__ring');
-    if (dot && ring) {
-      var dx = gsap.quickTo(dot, 'x', { duration: .14, ease: 'power3' });
-      var dy = gsap.quickTo(dot, 'y', { duration: .14, ease: 'power3' });
-      var rx = gsap.quickTo(ring, 'x', { duration: .45, ease: 'power3' });
-      var ry = gsap.quickTo(ring, 'y', { duration: .45, ease: 'power3' });
-
-      window.addEventListener('mousemove', function (e) {
-        dx(e.clientX - 7);  dy(e.clientY - 7);
-        rx(e.clientX - 21); ry(e.clientY - 21);
-      }, { passive: true });
-
-      $$('a, button, .svc__item').forEach(function (el) {
-        el.addEventListener('mouseenter', function () {
-          gsap.to(ring, { scale: 1.75, opacity: .45, duration: .35, ease: 'power3' });
-          gsap.to(dot, { scale: .35, duration: .35, ease: 'power3' });
-        });
-        el.addEventListener('mouseleave', function () {
-          gsap.to(ring, { scale: 1, opacity: 1, duration: .35, ease: 'power3' });
-          gsap.to(dot, { scale: 1, duration: .35, ease: 'power3' });
-        });
-      });
-    }
-
     $$('[data-magnetic]').forEach(function (el) {
       var mx = gsap.quickTo(el, 'x', { duration: .5, ease: 'power3' });
       var my = gsap.quickTo(el, 'y', { duration: .5, ease: 'power3' });
@@ -216,19 +187,17 @@
       // element records opacity:0 as its end value and the element never reappears.
       if (el.classList.contains('lead') || el.classList.contains('hero__lead')) return;
       if (el.closest('.hero')) return;                 // hero entrance timeline owns these
-      if (el.classList.contains('svc__item')) return;  // the tile stagger owns these
       gsap.from(el, {
         y: 34, opacity: 0, duration: .95, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 92%', once: true }
       });
     });
 
-    // service tiles stagger as a set
-    var tiles = $$('.svc__item');
-    if (tiles.length) {
-      gsap.from(tiles, {
-        y: 46, opacity: 0, duration: .9, ease: 'power3.out', stagger: .07,
-        scrollTrigger: { trigger: '.svc', start: 'top 85%', once: true }
+    var railBox = $('[data-rail]');
+    if (railBox) {
+      gsap.from(railBox, {
+        y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: railBox, start: 'top 90%', once: true }
       });
     }
   }
@@ -308,25 +277,98 @@
     });
   }
 
-  /* ---------------- counters ---------------- */
+  /* ---------------- services rail ----------------
+     Runs itself, pauses to be read, drags, and hurries along with the scroll. */
 
-  function counters() {
-    $$('[data-num]').forEach(function (el) {
-      var target = parseFloat(el.getAttribute('data-num'));
-      var pad = el.hasAttribute('data-pad');
-      var plain = el.hasAttribute('data-plain');
-      var from = plain ? target - 14 : 0;
-      var o = { v: from };
-      el.textContent = pad && String(from).length < 2 ? '0' + from : String(from);
+  function rail() {
+    var box = $('[data-rail]');
+    var track = $('[data-rail-track]');
+    if (!box || !track) return;
 
-      gsap.to(o, {
-        v: target, duration: 1.8, ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        onUpdate: function () {
-          var n = Math.round(o.v);
-          el.textContent = (pad && String(n).length < 2) ? '0' + n : String(n);
-        }
+    var cards = $$('.scard', track);
+    if (!cards.length) return;
+
+    var gap = parseFloat(getComputedStyle(track).gap) || 0;
+    // One cycle is every card plus one gap each, so a clone starts exactly where
+    // the original set did and the loop has no seam.
+    var cycle = cards.reduce(function (a, c) { return a + c.getBoundingClientRect().width; }, 0)
+              + cards.length * gap;
+    if (!cycle) return;
+
+    var need = Math.ceil((box.clientWidth + cycle) / cycle) + 1;
+    for (var n = 0; n < need; n++) {
+      cards.forEach(function (c) {
+        var clone = c.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        $$('img', clone).forEach(function (im) { im.setAttribute('alt', ''); });
+        track.appendChild(clone);
       });
+    }
+
+    if (window.__glassRedress) window.__glassRedress();
+
+    var wrapX = gsap.utils.wrap(-cycle, 0);
+    var setX = gsap.quickSetter(track, 'x', 'px');
+    var pos = 0;
+    var SPEED = 0.042;                 // px per millisecond
+    var mult = 1, multTarget = 1;
+    var paused = false, dragging = false, onScreen = true;
+
+    gsap.ticker.add(function (time, delta) {
+      multTarget += (1 - multTarget) * 0.05;
+      mult += (multTarget - mult) * 0.12;
+      if (!dragging && !paused && onScreen) pos -= SPEED * delta * mult;
+      pos = wrapX(pos);
+      setX(pos);
+    });
+
+    box.addEventListener('pointerenter', function () { paused = true; });
+    box.addEventListener('pointerleave', function () { paused = false; });
+    box.addEventListener('focusin', function () { paused = true; });
+    box.addEventListener('focusout', function () { paused = false; });
+
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { onScreen = e.isIntersecting; });
+    }, { rootMargin: '150px' }).observe(box);
+
+    var startX = 0, startPos = 0;
+    box.addEventListener('pointerdown', function (e) {
+      dragging = true; startX = e.clientX; startPos = pos;
+      box.classList.add('is-dragging');
+      try { box.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    box.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      pos = wrapX(startPos + (e.clientX - startX));
+      setX(pos);
+    });
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      box.classList.remove('is-dragging');
+      try { box.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+    box.addEventListener('pointerup', endDrag);
+    box.addEventListener('pointercancel', endDrag);
+
+    function nudge(dir) {
+      var step = cards[0].getBoundingClientRect().width + gap;
+      var proxy = { v: pos };
+      paused = true;
+      gsap.to(proxy, {
+        v: pos + dir * step, duration: .75, ease: 'power3.out',
+        onUpdate: function () { pos = wrapX(proxy.v); setX(pos); },
+        onComplete: function () { paused = false; }
+      });
+    }
+    var prev = $('[data-rail-prev]'), next = $('[data-rail-next]');
+    if (prev) prev.addEventListener('click', function () { nudge(1); });
+    if (next) next.addEventListener('click', function () { nudge(-1); });
+
+    ScrollTrigger.create({
+      onUpdate: function (self) {
+        multTarget = gsap.utils.clamp(1, 4.5, 1 + Math.abs(self.getVelocity()) / 900);
+      }
     });
   }
 
@@ -431,7 +473,7 @@
     fades();
     images();
     marquee();
-    counters();
+    rail();
     process();
     statsGrid();
     ScrollTrigger.refresh();

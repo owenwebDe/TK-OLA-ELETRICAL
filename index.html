@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Geist:wght@300..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300..700&display=swap">
 <link rel="stylesheet" href="assets/app.css">
 
 <script type="importmap">
@@ -29,8 +29,6 @@
   <div class="loader__bar"></div>
 </div>
 
-<div class="cursor" aria-hidden="true"></div>
-<div class="cursor__ring" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"></div>
 
 <header class="nav">
@@ -143,50 +141,81 @@
       </div>
     </div>
 
-    <div class="wrap">
-      <div class="svc">
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
-          <span class="svc__n">01</span>
-          <h3>Solar systems and inverters</h3>
-          <p>Panels, batteries and inverters sized for your house or shop &mdash; and serviced after.</p>
+    <div class="rail" data-rail>
+      <div class="rail__track" data-rail-track>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/hoist.webp" alt="Technicians lifting a solar panel up to a roof" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">01</span>
+            <h3>Solar systems and inverters</h3>
+            <p>Panels, batteries and inverters sized for your house or shop &mdash; and serviced after.</p>
+          </div>
         </article>
-
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5V16H8v-2.5A6 6 0 0 1 12 3Z"/></svg></div>
-          <span class="svc__n">02</span>
-          <h3>Solar street and security lights</h3>
-          <p>Compound, street and security lighting that keeps running when the grid does not.</p>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/street-light.webp" alt="Solar street lights along a road" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">02</span>
+            <h3>Solar street and security lights</h3>
+            <p>Compound, street and security lighting that keeps running when the grid does not.</p>
+          </div>
         </article>
-
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></div>
-          <span class="svc__n">03</span>
-          <h3>Electrical wiring and boards</h3>
-          <p>New wiring, rewiring, distribution boards and fault-finding on circuits that trip.</p>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/board2.webp" alt="A finished distribution board with its breakers labelled" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">03</span>
+            <h3>Electrical wiring and boards</h3>
+            <p>New wiring, rewiring, distribution boards and fault-finding on circuits that trip.</p>
+          </div>
         </article>
-
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 15 4l1.8 6L4.8 13.5 3 7.5Z"/><path d="m16.8 10 4.2-2v7l-4.2-2"/><path d="M7 14v5a2 2 0 0 0 4 0v-4"/></svg></div>
-          <span class="svc__n">04</span>
-          <h3>CCTV installation</h3>
-          <p>Cameras, recorders and cabling &mdash; set up so you can watch the place from your phone.</p>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/cctv-sky.webp" alt="Security cameras mounted high on a pole" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">04</span>
+            <h3>CCTV installation</h3>
+            <p>Cameras, recorders and cabling &mdash; set up so you can watch the place from your phone.</p>
+          </div>
         </article>
-
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="9" rx="2"/><path d="M6 17c1.2 1.2 2.4 1.2 3.6 0M14.4 17c1.2 1.2 2.4 1.2 3.6 0M6 9h12"/></svg></div>
-          <span class="svc__n">05</span>
-          <h3>Appliance installation and repair</h3>
-          <p>Air conditioners, water heaters, pumps and household appliances &mdash; fitted and repaired.</p>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/ac-tech.webp" alt="Technician servicing an air conditioner" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">05</span>
+            <h3>Appliance installation and repair</h3>
+            <p>Air conditioners, water heaters, pumps and household appliances &mdash; fitted and repaired.</p>
+          </div>
         </article>
-
-        <article class="svc__item" data-fade>
-          <div class="svc__ico"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5 12 3l9 3.5L12 10 3 6.5Z"/><path d="M6.5 8.8V14c0 1.7 2.5 3 5.5 3s5.5-1.3 5.5-3V8.8"/><path d="M21 6.5V13"/></svg></div>
-          <span class="svc__n">06</span>
-          <h3>Training and consultancy</h3>
-          <p>Hands-on training for apprentices, and advice on sizing a system before you buy.</p>
+        <article class="scard">
+          <div class="scard__img">
+            <img src="assets/img/tools.webp" alt="An electrician's tool kit laid out" width="760" height="950" loading="lazy">
+          </div>
+          <div class="scard__body glass">
+            <span class="scard__n">06</span>
+            <h3>Training and consultancy</h3>
+            <p>Hands-on training for apprentices, and advice on sizing a system before you buy.</p>
+          </div>
         </article>
       </div>
+    </div>
+
+    <div class="wrap rail__foot">
+      <div class="rail__ctrls">
+        <button class="rail__btn" type="button" data-rail-prev aria-label="Previous services">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="rail__btn" type="button" data-rail-next aria-label="Next services">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <p class="rail__hint">Six trades &mdash; drag to browse, or let it run</p>
     </div>
   </section>
 
@@ -196,19 +225,19 @@
     <div class="wrap">
       <div class="stats__row">
         <div class="stat" data-fade>
-          <b data-num="2012" data-plain>2012</b>
+          <b>2012</b>
           <span>The year TK-OLA opened in Kurudu</span>
         </div>
         <div class="stat stat--accent" data-fade>
-          <b data-num="14">0</b>
+          <b>14</b>
           <span>Years on Abuja roofs and in Abuja ceilings</span>
         </div>
         <div class="stat" data-fade>
-          <b data-num="6" data-pad>0</b>
+          <b>06</b>
           <span>Trades handled by the same in-house team</span>
         </div>
         <div class="stat" data-fade>
-          <b data-num="1" data-pad>0</b>
+          <b>01</b>
           <span>Number to call, answered by the people doing the work</span>
         </div>
       </div>
@@ -400,6 +429,7 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script defer src="assets/glass.js"></script>
 <script defer src="assets/app.js"></script>
 <script type="module" src="assets/hero3d.js"></script>
 </body>
