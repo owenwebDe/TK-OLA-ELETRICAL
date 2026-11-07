@@ -9,6 +9,7 @@
 /assets/*
 !/assets/app.css
 !/assets/app.js
+!/assets/glass.js
 !/assets/hero3d.js
 !/assets/favicon.svg
 !/assets/img/
