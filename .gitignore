@@ -1,0 +1,21 @@
+# Whitelist: only what the published site actually loads.
+/*
+!/.gitignore
+!/index.html
+!/credits.html
+!/README.md
+!/netlify.toml
+!/assets/
+/assets/*
+!/assets/app.css
+!/assets/app.js
+!/assets/hero3d.js
+!/assets/favicon.svg
+!/assets/img/
+assets/img/cctv-sky.webp
+assets/img/hoist.webp
+assets/img/rooftop-work.webp
+assets/img/rooftop-work-700.webp
+assets/img/solar-roof-700.webp
+assets/img/street-light.webp
+assets/img/tools.webp
