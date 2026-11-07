@@ -5,6 +5,7 @@
 !/credits.html
 !/README.md
 !/netlify.toml
+!/vercel.json
 !/assets/
 /assets/*
 !/assets/app.css

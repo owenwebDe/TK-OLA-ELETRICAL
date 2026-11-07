@@ -16,7 +16,9 @@ npx serve .
 
 Then open `http://localhost:3000`.
 
-Deploying: point Netlify (or any static host) at this folder. `netlify.toml` is included.
+Deploying: point Vercel, Netlify or any static host at this folder — there is no
+build step. `vercel.json` and `netlify.toml` are both included and only set cache
+and security headers; neither is required for the site to work.
 
 ## What is in here
 
